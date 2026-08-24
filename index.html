@@ -1,10 +1,35 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Тёплые петельки — Вязаные вещи ручной работы</title>
+    
+    <!-- Подключение шрифтов: Marck Script (рукописный, как Decor) и Nunito (мягкий для текста) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Marck+Script&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
+        /* =========================================
+           1. CSS-ПЕРЕМЕННЫЕ И БАЗОВЫЕ НАСТРОЙКИ
+           ========================================= */
+        :root {
+            --color-chocolate: #5a4a42;
+            --color-chocolate-dark: #3d3229;
+            --color-cream: #faf8f5;
+            --color-warm: #d4a574;
+            --color-warm-light: #c9b896;
+            --color-accent: #c97b5a;
+            --color-text: #5a4a42;
+            --color-white: #ffffff;
+            --shadow-soft: 0 5px 20px rgba(90, 74, 66, 0.1);
+            --shadow-hover: 0 15px 40px rgba(90, 74, 66, 0.2);
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --font-script: 'Marck Script', cursive;
+            --font-main: 'Nunito', sans-serif;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,22 +37,88 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #5a4a42;
-            background-color: #faf8f5;
+            font-family: var(--font-main);
+            line-height: 1.7;
+            color: var(--color-text);
+            background-color: var(--color-cream);
+            overflow-x: hidden;
         }
 
-        /* Шапка */
-        header {
-            background: linear-gradient(135deg, #d4a574 0%, #c9b896 100%);
-            padding: 1.2rem 0;
+        /* =========================================
+           2. АНИМАЦИЯ: ПЛАВАЮЩИЕ КЛУБКИ НА ФОНЕ
+           ========================================= */
+        .floating-bg {
             position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .yarn-ball {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.08;
+            animation: floatYarn 20s infinite ease-in-out;
+        }
+
+        .yarn-ball:nth-child(1) { top: 10%; left: 5%; animation-duration: 18s; font-size: 2.5rem; }
+        .yarn-ball:nth-child(2) { top: 30%; left: 85%; animation-duration: 22s; animation-delay: 2s; }
+        .yarn-ball:nth-child(3) { top: 60%; left: 15%; animation-duration: 25s; animation-delay: 4s; font-size: 3rem; }
+        .yarn-ball:nth-child(4) { top: 80%; left: 75%; animation-duration: 20s; animation-delay: 6s; }
+        .yarn-ball:nth-child(5) { top: 45%; left: 50%; animation-duration: 28s; animation-delay: 3s; font-size: 2.2rem; }
+        .yarn-ball:nth-child(6) { top: 15%; left: 60%; animation-duration: 24s; animation-delay: 5s; }
+
+        @keyframes floatYarn {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(30px, -40px) rotate(90deg); }
+            50% { transform: translate(-20px, -80px) rotate(180deg); }
+            75% { transform: translate(40px, -40px) rotate(270deg); }
+        }
+
+        /* =========================================
+           3. БЕГУЩАЯ СТРОКА
+           ========================================= */
+        .marquee {
+            background: linear-gradient(135deg, var(--color-warm) 0%, var(--color-accent) 100%);
+            color: var(--color-white);
+            padding: 0.8rem 0;
+            overflow: hidden;
+            position: relative;
+            z-index: 10;
+            font-family: var(--font-script);
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+        }
+
+        .marquee-content {
+            display: flex;
+            white-space: nowrap;
+            animation: marquee 25s linear infinite;
+        }
+
+        .marquee-content span {
+            padding: 0 3rem;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* =========================================
+           4. ШАПКА
+           ========================================= */
+        header {
+            background: linear-gradient(135deg, var(--color-warm) 0%, var(--color-warm-light) 100%);
+            padding: 1rem 0;
+            position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.15);
-            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
         }
 
         nav {
@@ -40,41 +131,41 @@
         }
 
         .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #fff;
+            font-family: var(--font-script);
+            font-size: 2.2rem;
+            color: var(--color-white);
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
         }
 
         .nav-links {
             display: flex;
             gap: 1.5rem;
             list-style: none;
+            flex-wrap: wrap;
         }
 
         .nav-links a {
-            color: #fff;
+            color: var(--color-white);
             text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s;
+            font-weight: 600;
+            transition: var(--transition);
             padding: 0.5rem 1rem;
             border-radius: 20px;
             font-size: 0.95rem;
         }
 
         .nav-links a:hover {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.25);
             transform: translateY(-2px);
         }
 
-        /* Главный экран */
+        /* =========================================
+           5. ГЛАВНЫЙ ЭКРАН (HERO)
+           ========================================= */
         .hero {
-            margin-top: 70px;
-            min-height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('photos/1.jpg');
+            margin-top: 0;
+            min-height: 90vh;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('photos/1.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -82,101 +173,87 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            color: #fff;
+            color: var(--color-white);
             position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.4) 100%);
-            pointer-events: none;
         }
 
         .hero-content {
-            position: relative;
-            z-index: 1;
             max-width: 900px;
-            padding: 0 2rem;
+            padding: 2rem;
+            animation: fadeInUp 1.2s ease;
         }
 
         .hero-content h1 {
-            font-size: 4.5rem;
+            font-family: var(--font-script);
+            font-size: 5rem;
             margin-bottom: 1.5rem;
-            font-weight: 700;
             text-shadow: 3px 3px 10px rgba(0,0,0,0.6);
-            animation: fadeInUp 1s ease;
             letter-spacing: 2px;
         }
 
         .hero-content p {
-            font-size: 1.8rem;
-            margin-bottom: 3rem;
-            animation: fadeInUp 1s ease 0.2s both;
+            font-size: 1.5rem;
+            margin-bottom: 2.5rem;
             text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
-            font-weight: 300;
-            line-height: 1.4;
+            font-weight: 400;
         }
 
         .btn {
             display: inline-block;
-            padding: 1.3rem 3.5rem;
-            background: linear-gradient(135deg, #d4a574 0%, #c9b896 100%);
-            color: #fff;
+            padding: 1.2rem 3rem;
+            background: linear-gradient(135deg, var(--color-warm) 0%, var(--color-accent) 100%);
+            color: var(--color-white);
             text-decoration: none;
             border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.2rem;
-            transition: all 0.3s;
-            animation: fadeInUp 1s ease 0.4s both;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: var(--transition);
             box-shadow: 0 8px 25px rgba(212, 165, 116, 0.5);
             border: 2px solid transparent;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            cursor: pointer;
+            font-family: var(--font-main);
         }
 
         .btn:hover {
             transform: translateY(-5px) scale(1.05);
             box-shadow: 0 15px 40px rgba(212, 165, 116, 0.7);
-            border-color: #fff;
+            border-color: var(--color-white);
         }
 
-        /* Секции */
+        /* =========================================
+           6. ОБЩИЕ СТИЛИ СЕКЦИЙ
+           ========================================= */
         section {
-            padding: 6rem 2rem;
+            padding: 5rem 2rem;
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         h2 {
             text-align: center;
-            font-size: 2.8rem;
-            margin-bottom: 3.5rem;
-            color: #8b6f5c;
-            position: relative;
+            font-family: var(--font-script);
+            font-size: 3.5rem;
+            margin-bottom: 3rem;
+            color: var(--color-chocolate-dark);
         }
 
         h2::after {
-            content: '';
+            content: '🧶';
             display: block;
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(135deg, #d4a574 0%, #c9b896 100%);
-            margin: 1rem auto 0;
-            border-radius: 2px;
+            font-size: 2rem;
+            margin-top: 0.5rem;
         }
 
-        /* Обо мне */
+        /* =========================================
+           7. ОБО МНЕ
+           ========================================= */
         .about {
-            background: #fff;
-            border-radius: 20px;
+            background: var(--color-white);
+            border-radius: 25px;
             padding: 4rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            box-shadow: var(--shadow-soft);
         }
 
         .about-content {
@@ -191,10 +268,15 @@
             line-height: 1.9;
         }
 
+        .about-text p {
+            margin-bottom: 1rem;
+        }
+
         .about-image {
-            border-radius: 15px;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            box-shadow: var(--shadow-hover);
+            animation: floatYarn 6s infinite ease-in-out;
         }
 
         .about-image img {
@@ -208,30 +290,220 @@
             transform: scale(1.05);
         }
 
-        /* Галерея */
+        /* =========================================
+           8. УСЛУГИ С 3D-ПЕРЕВОРОТОМ
+           ========================================= */
+        .services {
+            background: var(--color-cream);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+
+        /* Контейнер для 3D-эффекта */
+        .flip-card {
+            perspective: 1000px;
+            height: 450px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .flip-card-front {
+            background: linear-gradient(135deg, #f5ebe0 0%, #e8d5c4 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .flip-card-front .emoji {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .flip-card-front h3 {
+            font-family: var(--font-script);
+            font-size: 2rem;
+            color: var(--color-chocolate-dark);
+            margin-bottom: 1rem;
+        }
+
+        .flip-card-front .price {
+            font-size: 1.8rem;
+            color: var(--color-accent);
+            font-weight: 800;
+        }
+
+        .flip-card-back {
+            background: linear-gradient(135deg, var(--color-warm) 0%, var(--color-accent) 100%);
+            color: var(--color-white);
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .flip-card-back h3 {
+            font-family: var(--font-script);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--color-white);
+        }
+
+        .flip-card-back p {
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .flip-card-back .btn-small {
+            align-self: center;
+            padding: 0.8rem 2rem;
+            background: var(--color-white);
+            color: var(--color-accent);
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: var(--transition);
+        }
+
+        .flip-card-back .btn-small:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        /* =========================================
+           9. КАЛЬКУЛЯТОР
+           ========================================= */
+        .calculator {
+            background: var(--color-white);
+            border-radius: 25px;
+            padding: 4rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .calc-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #f5ebe0 0%, #e8d5c4 100%);
+            padding: 3rem;
+            border-radius: 20px;
+        }
+
+        .calc-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .calc-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            color: var(--color-chocolate-dark);
+            font-size: 1.1rem;
+        }
+
+        .calc-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--color-warm);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: var(--font-main);
+            background: var(--color-white);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .calc-group select:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 10px rgba(201, 123, 90, 0.3);
+        }
+
+        .calc-result {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: var(--color-white);
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .calc-result .total-label {
+            font-size: 1.2rem;
+            color: var(--color-chocolate);
+            margin-bottom: 0.5rem;
+        }
+
+        .calc-result .total-price {
+            font-family: var(--font-script);
+            font-size: 3.5rem;
+            color: var(--color-accent);
+            font-weight: 700;
+        }
+
+        /* =========================================
+           10. ГАЛЕРЕЯ
+           ========================================= */
         .gallery {
-            background: #faf8f5;
+            background: var(--color-cream);
         }
 
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
         }
 
         .gallery-item {
             position: relative;
             overflow: hidden;
             border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            box-shadow: var(--shadow-soft);
             cursor: pointer;
-            transition: all 0.3s;
+            transition: var(--transition);
             aspect-ratio: 1;
+            animation: floatCard 4s infinite ease-in-out;
+        }
+
+        .gallery-item:nth-child(even) {
+            animation-delay: 2s;
+        }
+
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
 
         .gallery-item:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-hover);
+            animation-play-state: paused;
         }
 
         .gallery-item img {
@@ -245,63 +517,67 @@
             transform: scale(1.15);
         }
 
-        /* Как заказать */
+        /* =========================================
+           11. КАК ЗАКАЗАТЬ
+           ========================================= */
         .how-to-order {
-            background: #fff;
-            border-radius: 20px;
+            background: var(--color-white);
+            border-radius: 25px;
             padding: 4rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            box-shadow: var(--shadow-soft);
         }
 
         .steps {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 2rem;
-            margin-top: 3rem;
+            margin-top: 2rem;
         }
 
         .step {
             text-align: center;
-            padding: 2.5rem 2rem;
+            padding: 2rem 1.5rem;
             background: linear-gradient(135deg, #f5ebe0 0%, #e8d5c4 100%);
             border-radius: 15px;
-            position: relative;
-            transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: var(--transition);
+            box-shadow: var(--shadow-soft);
         }
 
         .step:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            box-shadow: var(--shadow-hover);
         }
 
         .step-number {
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, #d4a574 0%, #c9b896 100%);
-            color: #fff;
+            background: linear-gradient(135deg, var(--color-warm) 0%, var(--color-accent) 100%);
+            color: var(--color-white);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin: 0 auto 1.5rem;
+            font-family: var(--font-script);
+            font-size: 2rem;
+            margin: 0 auto 1rem;
             box-shadow: 0 5px 15px rgba(212, 165, 116, 0.4);
         }
 
         .step h3 {
-            color: #8b6f5c;
-            margin-bottom: 1rem;
-            font-size: 1.4rem;
+            font-family: var(--font-script);
+            color: var(--color-chocolate-dark);
+            margin-bottom: 0.8rem;
+            font-size: 1.5rem;
         }
 
-        /* Форма заказа */
+        /* =========================================
+           12. ФОРМА ЗАКАЗА (РАБОЧАЯ ЧЕРЕЗ FORMSUBMIT)
+           ========================================= */
         .order-form {
             background: linear-gradient(135deg, #f5ebe0 0%, #e8d5c4 100%);
-            border-radius: 20px;
+            border-radius: 25px;
             padding: 4rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-soft);
         }
 
         .form-container {
@@ -310,14 +586,14 @@
         }
 
         .form-group {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            color: #5a4a42;
-            font-weight: 600;
+            color: var(--color-chocolate-dark);
+            font-weight: 700;
             font-size: 1.1rem;
         }
 
@@ -326,41 +602,42 @@
         .form-group select {
             width: 100%;
             padding: 1rem 1.5rem;
-            border: 2px solid #d4a574;
-            border-radius: 10px;
+            border: 2px solid var(--color-warm);
+            border-radius: 12px;
             font-size: 1rem;
-            font-family: inherit;
-            transition: all 0.3s;
-            background: #fff;
+            font-family: var(--font-main);
+            transition: var(--transition);
+            background: var(--color-white);
         }
 
         .form-group input:focus,
         .form-group textarea:focus,
         .form-group select:focus {
             outline: none;
-            border-color: #8b6f5c;
-            box-shadow: 0 0 10px rgba(212, 165, 116, 0.3);
+            border-color: var(--color-accent);
+            box-shadow: 0 0 10px rgba(201, 123, 90, 0.3);
         }
 
         .form-group textarea {
-            min-height: 150px;
+            min-height: 120px;
             resize: vertical;
         }
 
         .submit-btn {
             width: 100%;
             padding: 1.3rem;
-            background: linear-gradient(135deg, #d4a574 0%, #c9b896 100%);
-            color: #fff;
+            background: linear-gradient(135deg, var(--color-warm) 0%, var(--color-accent) 100%);
+            color: var(--color-white);
             border: none;
             border-radius: 50px;
             font-size: 1.2rem;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: var(--transition);
             box-shadow: 0 8px 25px rgba(212, 165, 116, 0.4);
             text-transform: uppercase;
             letter-spacing: 1px;
+            font-family: var(--font-main);
         }
 
         .submit-btn:hover {
@@ -368,34 +645,105 @@
             box-shadow: 0 15px 35px rgba(212, 165, 116, 0.6);
         }
 
-        /* Отзывы */
+        /* =========================================
+           13. FAQ (АККОРДЕОН)
+           ========================================= */
+        .faq {
+            background: var(--color-white);
+            border-radius: 25px;
+            padding: 4rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            background: var(--color-cream);
+            transition: var(--transition);
+        }
+
+        .faq-item:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f5ebe0 0%, #e8d5c4 100%);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--color-chocolate-dark);
+            transition: var(--transition);
+        }
+
+        .faq-question:hover {
+            background: linear-gradient(135deg, var(--color-warm) 0%, var(--color-accent) 100%);
+            color: var(--color-white);
+        }
+
+        .faq-question .icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-question .icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            padding: 0 1.5rem;
+            background: var(--color-white);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding: 1.5rem;
+        }
+
+        /* =========================================
+           14. ОТЗЫВЫ + КНОПКА ДОБАВИТЬ
+           ========================================= */
         .reviews {
-            background: #faf8f5;
+            background: var(--color-cream);
         }
 
         .reviews-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
         }
 
         .review-card {
-            background: #fff;
-            padding: 2.5rem;
+            background: var(--color-white);
+            padding: 2rem;
             border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-            transition: all 0.3s;
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition);
         }
 
         .review-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+            box-shadow: var(--shadow-hover);
         }
 
         .review-header {
             display: flex;
             align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             gap: 1rem;
         }
 
@@ -404,121 +752,145 @@
             height: 60px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid #d4a574;
+            border: 3px solid var(--color-warm);
         }
 
         .review-info h4 {
-            color: #8b6f5c;
-            font-size: 1.3rem;
-            margin-bottom: 0.3rem;
+            font-family: var(--font-script);
+            color: var(--color-chocolate-dark);
+            font-size: 1.4rem;
+            margin-bottom: 0.2rem;
         }
 
         .review-stars {
             color: #ffc107;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
         .review-text {
-            line-height: 1.8;
+            line-height: 1.7;
             font-style: italic;
-            color: #5a4a42;
+            color: var(--color-text);
         }
 
-        /* Услуги */
-        .services {
-            background: #fff;
-            border-radius: 20px;
-            padding: 4rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2.5rem;
-        }
-
-        .service-card {
-            background: linear-gradient(135deg, #f5ebe0 0%, #e8d5c4 100%);
-            padding: 2.5rem;
-            border-radius: 15px;
+        .add-review-btn-container {
             text-align: center;
-            transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin-top: 2rem;
         }
 
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        /* Модальное окно для добавления отзыва */
+        .modal-review {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
         }
 
-        .service-card h3 {
-            color: #8b6f5c;
-            margin-bottom: 1rem;
-            font-size: 1.6rem;
+        .modal-review.active {
+            display: flex;
         }
 
-        .service-card .price {
+        .modal-review-content {
+            background: var(--color-white);
+            padding: 3rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
             font-size: 2rem;
-            color: #d4a574;
-            font-weight: bold;
-            margin-top: 1.5rem;
+            cursor: pointer;
+            color: var(--color-chocolate);
+            transition: transform 0.3s;
         }
 
-        /* Контакты */
+        .modal-close-btn:hover {
+            transform: rotate(90deg);
+        }
+
+        /* =========================================
+           15. КОНТАКТЫ
+           ========================================= */
         .contact {
             text-align: center;
         }
 
         .contact-info {
-            background: linear-gradient(135deg, #d4a574 0%, #c9b896 100%);
+            background: linear-gradient(135deg, var(--color-warm) 0%, var(--color-accent) 100%);
             padding: 4rem;
-            border-radius: 20px;
-            color: #fff;
+            border-radius: 25px;
+            color: var(--color-white);
             box-shadow: 0 10px 30px rgba(212, 165, 116, 0.3);
         }
 
         .contact-info h3 {
-            font-size: 2.2rem;
-            margin-bottom: 2rem;
+            font-family: var(--font-script);
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--color-white);
         }
 
         .contact-links {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
-            margin-top: 2.5rem;
+            gap: 1rem;
+            margin-top: 2rem;
             max-width: 500px;
             margin-left: auto;
             margin-right: auto;
         }
 
         .contact-link {
-            color: #fff;
+            color: var(--color-white);
             text-decoration: none;
-            font-size: 1.3rem;
-            padding: 1.2rem;
+            font-size: 1.2rem;
+            padding: 1rem;
             background: rgba(255,255,255,0.2);
-            border-radius: 15px;
-            transition: all 0.3s;
+            border-radius: 12px;
+            transition: var(--transition);
             border: 2px solid transparent;
         }
 
         .contact-link:hover {
             background: rgba(255,255,255,0.3);
-            border-color: #fff;
+            border-color: var(--color-white);
             transform: translateY(-3px);
         }
 
-        /* Подвал */
+        /* =========================================
+           16. ПОДВАЛ
+           ========================================= */
         footer {
-            background: #5a4a42;
-            color: #fff;
+            background: var(--color-chocolate-dark);
+            color: var(--color-cream);
             text-align: center;
             padding: 2.5rem;
+            position: relative;
+            z-index: 1;
         }
 
-        /* Модальное окно */
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        /* =========================================
+           17. МОДАЛЬНОЕ ОКНО ГАЛЕРЕИ
+           ========================================= */
         .modal {
             display: none;
             position: fixed;
@@ -548,7 +920,7 @@
             position: absolute;
             top: 30px;
             right: 50px;
-            color: #fff;
+            color: var(--color-white);
             font-size: 3.5rem;
             cursor: pointer;
             transition: transform 0.3s;
@@ -558,7 +930,9 @@
             transform: rotate(90deg);
         }
 
-        /* Анимации */
+        /* =========================================
+           18. АНИМАЦИИ
+           ========================================= */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -570,41 +944,90 @@
             }
         }
 
-        /* Адаптивность */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* =========================================
+           19. АДАПТИВНОСТЬ
+           ========================================= */
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
             }
 
             .hero-content h1 {
-                font-size: 2.5rem;
+                font-size: 3rem;
             }
 
             .hero-content p {
-                font-size: 1.3rem;
+                font-size: 1.2rem;
             }
 
-            .about-content {
+            h2 {
+                font-size: 2.5rem;
+            }
+
+            .about-content,
+            .about {
                 grid-template-columns: 1fr;
+                padding: 2rem;
             }
 
+            .services-grid,
             .gallery-grid,
             .reviews-grid {
                 grid-template-columns: 1fr;
             }
 
-            h2 {
-                font-size: 2rem;
+            .flip-card {
+                height: 400px;
             }
 
-            .steps,
-            .services-grid {
-                grid-template-columns: 1fr;
+            section,
+            .about,
+            .calculator,
+            .order-form,
+            .faq,
+            .how-to-order,
+            .contact-info {
+                padding: 2.5rem 1.5rem;
+            }
+
+            .calc-result .total-price {
+                font-size: 2.5rem;
             }
         }
     </style>
 </head>
 <body>
+
+    <!-- Анимированный фон: плавающие клубки -->
+    <div class="floating-bg">
+        <div class="yarn-ball"></div>
+        <div class="yarn-ball">🧵</div>
+        <div class="yarn-ball">🪡</div>
+        <div class="yarn-ball">🧶</div>
+        <div class="yarn-ball">🧵</div>
+        <div class="yarn-ball">🪡</div>
+    </div>
+
+    <!-- Бегущая строка -->
+    <div class="marquee">
+        <div class="marquee-content">
+            <span>✨ Каждая вещь — единственная в своём роде: свяжу именно для вас по вашим меркам и пожеланиям ✨</span>
+            <span>✨ Каждая вещь — единственная в своём роде: свяжу именно для вас по вашим меркам и пожеланиям ✨</span>
+            <span>✨ Каждая вещь — единственная в своём роде: свяжу именно для вас по вашим меркам и пожеланиям ✨</span>
+            <span>✨ Каждая вещь — единственная в своём роде: свяжу именно для вас по вашим меркам и пожеланиям ✨</span>
+        </div>
+    </div>
 
     <!-- Шапка -->
     <header>
@@ -612,11 +1035,13 @@
             <div class="logo">🧶 Тёплые петельки</div>
             <ul class="nav-links">
                 <li><a href="#about">Обо мне</a></li>
+                <li><a href="#services">Услуги</a></li>
+                <li><a href="#calculator">Калькулятор</a></li>
                 <li><a href="#gallery">Галерея</a></li>
                 <li><a href="#how-to-order">Как заказать</a></li>
-                <li><a href="#order">Заказать</a></li>
+                <li><a href="#faq">FAQ</a></li>
                 <li><a href="#reviews">Отзывы</a></li>
-                <li><a href="#contact">Контакты</a></li>
+                <li><a href="#order">Заказать</a></li>
             </ul>
         </nav>
     </header>
@@ -626,19 +1051,17 @@
         <div class="hero-content">
             <h1>Уют в каждой петельке</h1>
             <p>Вязаные вещи ручной работы<br>с душой и теплом</p>
-            <a href="#gallery" class="btn">Смотреть работы</a>
+            <a href="#services" class="btn">Смотреть услуги</a>
         </div>
     </section>
 
     <!-- Обо мне -->
-    <section id="about" class="about">
+    <section id="about" class="about fade-in">
         <h2>Обо мне</h2>
         <div class="about-content">
             <div class="about-text">
                 <p>Меня зовут Анна, и я создаю уникальные вязаные вещи уже более 5 лет. Каждое изделие — это не просто одежда, это маленькая история, в которую я вкладываю свою любовь, тепло и заботу.</p>
-                <br>
                 <p>Я работаю только с качественной пряжей и использую различные техники вязания — от классических до самых современных. Каждая вещь создаётся индивидуально, с учётом ваших пожеланий и предпочтений.</p>
-                <br>
                 <p>Моя цель — чтобы вы чувствовали себя уютно, красиво и комфортно в моих работах!</p>
             </div>
             <div class="about-image">
@@ -647,57 +1070,149 @@
         </div>
     </section>
 
-    <!-- Галерея -->
-    <section id="gallery" class="gallery">
-        <h2>Мои работы</h2>
-        <div class="gallery-grid">
-            <div class="gallery-item" onclick="openModal(1)">
-                <img src="photos/1.jpg" alt="Работа 1">
+    <!-- Услуги с 3D-переворотом -->
+    <section id="services" class="services">
+        <h2 class="fade-in">Услуги и цены</h2>
+        <div class="services-grid">
+            
+            <div class="flip-card fade-in">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="emoji">🧢</div>
+                        <h3>Шапки</h3>
+                        <div class="price">от 1 500 ₽</div>
+                    </div>
+                    <div class="flip-card-back">
+                        <h3>Шапки</h3>
+                        <p>Тёплые и стильные шапки ручной вязки — идеально держат форму и мягко согревают даже в мороз. Свяжу в вашем любимом цвете по индивидуальным меркам, чтобы сидели идеально.</p>
+                        <a href="#order" class="btn-small">Заказать</a>
+                    </div>
+                </div>
             </div>
-            <div class="gallery-item" onclick="openModal(2)">
-                <img src="photos/2.jpg" alt="Работа 2">
+
+            <div class="flip-card fade-in">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="emoji">🧣</div>
+                        <h3>Шарфы</h3>
+                        <div class="price">от 2 000 ₽</div>
+                    </div>
+                    <div class="flip-card-back">
+                        <h3>Шарфы</h3>
+                        <p>Воздушные или плотные шарфы ручной работы — добавят образу уюта и станут любимым аксессуаром на каждый день. Подберу пряжу и узор под ваш стиль, чтобы шарф был не только тёплым, но и уникальным.</p>
+                        <a href="#order" class="btn-small">Заказать</a>
+                    </div>
+                </div>
             </div>
-            <div class="gallery-item" onclick="openModal(3)">
-                <img src="photos/3.jpg" alt="Работа 3">
+
+            <div class="flip-card fade-in">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="emoji">👕</div>
+                        <h3>Свитера</h3>
+                        <div class="price">от 5 000 ₽</div>
+                    </div>
+                    <div class="flip-card-back">
+                        <h3>Свитера</h3>
+                        <p>Комфортные свитера ручной вязки, в которых хочется ходить не снимая: мягкая пряжа и продуманный крой дарят ощущение уюта. Создам модель специально для вас — с учётом ваших пожеланий по фасону и цвету.</p>
+                        <a href="#order" class="btn-small">Заказать</a>
+                    </div>
+                </div>
             </div>
-            <div class="gallery-item" onclick="openModal(4)">
-                <img src="photos/4.jpg" alt="Работа 4">
+
+            <div class="flip-card fade-in">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="emoji"></div>
+                        <h3>Детские вещи</h3>
+                        <div class="price">от 3 000 ₽</div>
+                    </div>
+                    <div class="flip-card-back">
+                        <h3>Детские вещи</h3>
+                        <p>Нежные и безопасные вещи для малышей: вяжу из гипоаллергенной пряжи, без жёстких швов и колючих элементов. Сделаю вещь, которая будет согревать и радовать ребёнка каждый день.</p>
+                        <a href="#order" class="btn-small">Заказать</a>
+                    </div>
+                </div>
             </div>
-            <div class="gallery-item" onclick="openModal(5)">
-                <img src="photos/5.jpg" alt="Работа 5">
+
+        </div>
+    </section>
+
+    <!-- Калькулятор стоимости -->
+    <section id="calculator" class="calculator fade-in">
+        <h2>Калькулятор стоимости</h2>
+        <div class="calc-container">
+            <div class="calc-group">
+                <label for="calc-product">Что хотите связать?</label>
+                <select id="calc-product">
+                    <option value="1500">Шапка — 1 500 ₽</option>
+                    <option value="2000">Шарф — 2 000 ₽</option>
+                    <option value="5000">Свитер / кардиган — 5 000 ₽</option>
+                    <option value="3000">Детская вещь — 3 000 ₽</option>
+                </select>
             </div>
-            <div class="gallery-item" onclick="openModal(6)">
-                <img src="photos/6.jpg" alt="Работа 6">
+            
+            <div class="calc-group">
+                <label for="calc-size">Размер</label>
+                <select id="calc-size">
+                    <option value="0">S (до 44) — без доплаты</option>
+                    <option value="0">M (44-48) — без доплаты</option>
+                    <option value="300">L (48-52) — +300 ₽</option>
+                    <option value="500">XL (52+) — +500 ₽</option>
+                </select>
             </div>
-            <div class="gallery-item" onclick="openModal(7)">
-                <img src="photos/7.jpg" alt="Работа 7">
+            
+            <div class="calc-group">
+                <label for="calc-yarn">Тип пряжи</label>
+                <select id="calc-yarn">
+                    <option value="0">Обычная качественная — без доплаты</option>
+                    <option value="800">Премиум (меринос, альпака) — +800 ₽</option>
+                </select>
             </div>
-            <div class="gallery-item" onclick="openModal(8)">
-                <img src="photos/8.jpg" alt="Работа 8">
+            
+            <div class="calc-group">
+                <label for="calc-urgent">Срочность</label>
+                <select id="calc-urgent">
+                    <option value="0">Обычный срок (2-3 недели) — без доплаты</option>
+                    <option value="1000">Срочно (до 1 недели) — +1 000 ₽</option>
+                </select>
             </div>
-            <div class="gallery-item" onclick="openModal(9)">
-                <img src="photos/9.jpg" alt="Работа 9">
-            </div>
-            <div class="gallery-item" onclick="openModal(10)">
-                <img src="photos/10.jpg" alt="Работа 10">
-            </div>
-            <div class="gallery-item" onclick="openModal(11)">
-                <img src="photos/11.jpg" alt="Работа 11">
-            </div>
-            <div class="gallery-item" onclick="openModal(12)">
-                <img src="photos/12.jpg" alt="Работа 12">
+            
+            <div class="calc-result">
+                <div class="total-label">Примерная стоимость:</div>
+                <div class="total-price" id="total-price">1 500 ₽</div>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--color-chocolate);">* Точная цена зависит от сложности узора и обсуждается индивидуально</p>
             </div>
         </div>
     </section>
 
+    <!-- Галерея -->
+    <section id="gallery" class="gallery">
+        <h2 class="fade-in">Мои работы</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item fade-in" onclick="openModal(1)"><img src="photos/1.jpg" alt="Работа 1"></div>
+            <div class="gallery-item fade-in" onclick="openModal(2)"><img src="photos/2.jpg" alt="Работа 2"></div>
+            <div class="gallery-item fade-in" onclick="openModal(3)"><img src="photos/3.jpg" alt="Работа 3"></div>
+            <div class="gallery-item fade-in" onclick="openModal(4)"><img src="photos/4.jpg" alt="Работа 4"></div>
+            <div class="gallery-item fade-in" onclick="openModal(5)"><img src="photos/5.jpg" alt="Работа 5"></div>
+            <div class="gallery-item fade-in" onclick="openModal(6)"><img src="photos/6.jpg" alt="Работа 6"></div>
+            <div class="gallery-item fade-in" onclick="openModal(7)"><img src="photos/7.jpg" alt="Работа 7"></div>
+            <div class="gallery-item fade-in" onclick="openModal(8)"><img src="photos/8.jpg" alt="Работа 8"></div>
+            <div class="gallery-item fade-in" onclick="openModal(9)"><img src="photos/9.jpg" alt="Работа 9"></div>
+            <div class="gallery-item fade-in" onclick="openModal(10)"><img src="photos/10.jpg" alt="Работа 10"></div>
+            <div class="gallery-item fade-in" onclick="openModal(11)"><img src="photos/11.jpg" alt="Работа 11"></div>
+            <div class="gallery-item fade-in" onclick="openModal(12)"><img src="photos/12.jpg" alt="Работа 12"></div>
+        </div>
+    </section>
+
     <!-- Как заказать -->
-    <section id="how-to-order" class="how-to-order">
+    <section id="how-to-order" class="how-to-order fade-in">
         <h2>Как заказать</h2>
         <div class="steps">
             <div class="step">
                 <div class="step-number">1</div>
                 <h3>Оставьте заявку</h3>
-                <p>Напишите мне через форму заказа или в мессенджеры. Расскажите, что хотите связать.</p>
+                <p>Напишите мне через форму или в мессенджеры. Расскажите, что хотите связать.</p>
             </div>
             <div class="step">
                 <div class="step-number">2</div>
@@ -722,37 +1237,127 @@
         </div>
     </section>
 
-    <!-- Форма заказа -->
-    <section id="order" class="order-form">
+    <!-- FAQ -->
+    <section id="faq" class="faq fade-in">
+        <h2>Частые вопросы</h2>
+        <div class="faq-list">
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Сколько времени занимает изготовление?</span>
+                    <span class="icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>В среднем от 1 до 3 недель в зависимости от сложности изделия. Шапки и шарфы — 3-7 дней, свитера и кардиганы — 2-3 недели. Срочные заказы выполняются за дополнительную плату.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Можно ли заказать по своему эскизу или фото?</span>
+                    <span class="icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Да, конечно! Присылайте фото, описание или даже просто идею — я помогу воплотить её в жизнь. Могу также предложить свои варианты узоров и моделей.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Как происходит оплата?</span>
+                    <span class="icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Предоплата 50% перед началом работы, оставшиеся 50% — после того, как я пришлю фото готового изделия. Оплата переводом на карту или через СБП.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Какая пряжа используется?</span>
+                    <span class="icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Работаю только с качественной пряжей: меринос, альпака, хлопок, бамбук. Для детских вещей — только гипоаллергенные материалы. Могу подобрать пряжу под ваш бюджет.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Есть ли доставка?</span>
+                    <span class="icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Да, отправляю по всей России Почтой России или СДЭК. Стоимость доставки оплачивается отдельно. По Москве возможна личная встреча.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Что если вещь не подойдёт по размеру?</span>
+                    <span class="icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Перед началом работы я прошу снять точные мерки и делаю контрольные замеры в процессе вязания. Если всё же размер не подойдёт — бесплатно внесу корректировки.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Можно ли вернуть изделие?</span>
+                    <span class="icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Так как каждое изделие создаётся индивидуально под вас, возврат возможен только в случае брака. В этом случае я бесплатно переделаю вещь или верну деньги.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Форма заказа (РАБОЧАЯ через FormSubmit) -->
+    <section id="order" class="order-form fade-in">
         <h2>Оформить заказ</h2>
         <div class="form-container">
-            <form onsubmit="event.preventDefault(); alert('Спасибо за заявку! Я свяжусь с вами в ближайшее время.');">
+            <!-- FormSubmit.co — бесплатный сервис, отправляет заявки на email без бэкенда -->
+            <form action="https://formsubmit.co/anna@teplye-petelki.ru" method="POST">
+                
+                <!-- Настройки FormSubmit -->
+                <input type="hidden" name="_subject" value="Новая заявка с сайта Тёплые петельки!">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_next" value="https://venera0207.github.io/teplye-petelki/">
+                
                 <div class="form-group">
                     <label for="name">Ваше имя *</label>
-                    <input type="text" id="name" name="name" required placeholder="Как к вам обращаться?">
+                    <input type="text" id="name" name="Имя" required placeholder="Как к вам обращаться?">
                 </div>
                 
                 <div class="form-group">
                     <label for="phone">Телефон или WhatsApp *</label>
-                    <input type="tel" id="phone" name="phone" required placeholder="+7 (___) ___-__-__">
+                    <input type="tel" id="phone" name="Телефон" required placeholder="+7 (___) ___-__-__">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="Email" placeholder="your@email.com">
                 </div>
                 
                 <div class="form-group">
                     <label for="product">Что хотите заказать? *</label>
-                    <select id="product" name="product" required>
+                    <select id="product" name="Что_заказать" required>
                         <option value="">Выберите из списка</option>
-                        <option value="hat">Шапка</option>
-                        <option value="scarf">Шарф/Снуд</option>
-                        <option value="sweater">Свитер/Кардиган</option>
-                        <option value="children">Детская вещь</option>
-                        <option value="toy">Игрушка</option>
-                        <option value="other">Другое</option>
+                        <option value="Шапка">Шапка</option>
+                        <option value="Шарф/Снуд">Шарф/Снуд</option>
+                        <option value="Свитер/Кардиган">Свитер/Кардиган</option>
+                        <option value="Детская вещь">Детская вещь</option>
+                        <option value="Другое">Другое</option>
                     </select>
                 </div>
                 
                 <div class="form-group">
                     <label for="details">Подробности заказа *</label>
-                    <textarea id="details" name="details" required placeholder="Опишите, что хотите: размер, цвет, модель, пожелания по пряже и т.д."></textarea>
+                    <textarea id="details" name="Подробности" required placeholder="Опишите, что хотите: размер, цвет, модель, пожелания по пряже и т.д."></textarea>
                 </div>
                 
                 <button type="submit" class="submit-btn">Отправить заявку</button>
@@ -761,9 +1366,10 @@
     </section>
 
     <!-- Отзывы -->
-    <section id="reviews" class="reviews">
+    <section id="reviews" class="reviews fade-in">
         <h2>Отзывы клиентов</h2>
         <div class="reviews-grid">
+            
             <div class="review-card">
                 <div class="review-header">
                     <img src="photos/3.jpg" alt="Клиент" class="review-avatar">
@@ -772,7 +1378,7 @@
                         <div class="review-stars">⭐⭐⭐⭐⭐</div>
                     </div>
                 </div>
-                <p class="review-text">"Заказывала свитер для дочки. Анна учла все мои пожелания, помогла с выбором цвета и узора. Свитер получился просто волшебный! Дочка не снимает его уже неделю. Качество превосходное, все петельки ровные. Обязательно закажу ещё!"</p>
+                <p class="review-text">"Заказывала свитер для дочки. Анна учла все мои пожелания, помогла с выбором цвета и узора. Свитер получился просто волшебный! Дочка не снимает его уже неделю."</p>
             </div>
             
             <div class="review-card">
@@ -783,7 +1389,7 @@
                         <div class="review-stars">⭐⭐⭐⭐⭐</div>
                     </div>
                 </div>
-                <p class="review-text">"Очень довольна заказом! Вязала мне шапку и шарф комплект. Получилось красиво, тепло и уютно. Пряжа качественная, не колется. Анна очень внимательная к деталям, всё сделала в срок. Рекомендую!"</p>
+                <p class="review-text">"Очень довольна заказом! Вязала мне шапку и шарф комплект. Получилось красиво, тепло и уютно. Пряжа качественная, не колется. Рекомендую!"</p>
             </div>
             
             <div class="review-card">
@@ -794,7 +1400,7 @@
                         <div class="review-stars">⭐⭐⭐⭐⭐</div>
                     </div>
                 </div>
-                <p class="review-text">"Заказывала кардиган для себя. Это просто любовь с первой петельки! 😍 Сидит идеально, цвет точно как я хотела. Анна — настоящий профессионал своего дела. Уже думаю над следующим заказом!"</p>
+                <p class="review-text">"Заказывала кардиган для себя. Это просто любовь с первой петельки! 😍 Сидит идеально, цвет точно как я хотела. Уже думаю над следующим заказом!"</p>
             </div>
             
             <div class="review-card">
@@ -805,7 +1411,7 @@
                         <div class="review-stars">⭐⭐⭐⭐⭐</div>
                     </div>
                 </div>
-                <p class="review-text">"Вязала комплект на выписку из роддома для внучки. Получилось невероятно нежно и красиво! Все гости были в восторге. Качество работы на высоте, видно, что сделано с душой. Спасибо большое!"</p>
+                <p class="review-text">"Вязала комплект на выписку из роддома для внучки. Получилось невероятно нежно и красиво! Все гости были в восторге. Спасибо большое!"</p>
             </div>
             
             <div class="review-card">
@@ -816,7 +1422,7 @@
                         <div class="review-stars">⭐⭐⭐⭐⭐</div>
                     </div>
                 </div>
-                <p class="review-text">"Заказывал жене на день рождения. Анна помогла выбрать модель, всё подробно объяснила. Жена была в восторге! Теперь только к ней будем обращаться. Отличная работа!"</p>
+                <p class="review-text">"Заказывал жене на день рождения. Анна помогла выбрать модель, всё подробно объяснила. Жена была в восторге! Теперь только к ней будем обращаться."</p>
             </div>
             
             <div class="review-card">
@@ -827,55 +1433,75 @@
                         <div class="review-stars">⭐⭐⭐⭐⭐</div>
                     </div>
                 </div>
-                <p class="review-text">"Уже третий раз заказываю у Анны вязаные вещи. Всегда всё на высоте! Последний раз вязала плед на кровать — получилось шикарно. Очень приятно иметь дело с таким мастером!"</p>
+                <p class="review-text">"Уже третий раз заказываю у Анны вязаные вещи. Всегда всё на высоте! Последний раз вязала плед на кровать — получилось шикарно."</p>
             </div>
+            
+        </div>
+        
+        <div class="add-review-btn-container">
+            <button class="btn" onclick="openReviewModal()">️ Добавить отзыв</button>
         </div>
     </section>
 
-    <!-- Услуги -->
-    <section id="services" class="services">
-        <h2>Услуги и цены</h2>
-        <div class="services-grid">
-            <div class="service-card">
-                <h3> Шапки</h3>
-                <p>Вязаные шапки различных фасонов: от классических до креативных. Индивидуальный подбор узора и цвета.</p>
-                <div class="price">от 1 500 ₽</div>
-            </div>
-            <div class="service-card">
-                <h3> Шарфы и снуды</h3>
-                <p>Тёплые и уютные шарфы, снуды, палантины. Разная длина и ширина по вашему желанию.</p>
-                <div class="price">от 2 000 ₽</div>
-            </div>
-            <div class="service-card">
-                <h3>👕 Свитера и кардиганы</h3>
-                <p>Объёмные свитера, изящные кардиганы, пуловеры. Любые размеры и модели.</p>
-                <div class="price">от 5 000 ₽</div>
-            </div>
-            <div class="service-card">
-                <h3>👶 Детские вещи</h3>
-                <p>Комплекты для малышей: пинетки, шапочки, комбинезоны, пледы. Только гипоаллергенная пряжа.</p>
-                <div class="price">от 3 000 ₽</div>
-            </div>
+    <!-- Модальное окно для добавления отзыва -->
+    <div class="modal-review" id="reviewModal">
+        <div class="modal-review-content">
+            <span class="modal-close-btn" onclick="closeReviewModal()">&times;</span>
+            <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem;">Ваш отзыв</h2>
+            <form action="https://formsubmit.co/anna@teplye-petelki.ru" method="POST">
+                <input type="hidden" name="_subject" value="Новый отзыв о Тёплых петельках!">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_next" value="https://venera0207.github.io/teplye-petelki/">
+                
+                <div class="form-group">
+                    <label>Ваше имя *</label>
+                    <input type="text" name="Имя_отзыва" required placeholder="Как вас зовут?">
+                </div>
+                
+                <div class="form-group">
+                    <label>Что заказывали? *</label>
+                    <input type="text" name="Что_заказывали" required placeholder="Например: шапка, свитер...">
+                </div>
+                
+                <div class="form-group">
+                    <label>Ваш отзыв *</label>
+                    <textarea name="Отзыв" required placeholder="Расскажите о вашем опыте..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Оценка</label>
+                    <select name="Оценка">
+                        <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+                        <option value="4">⭐⭐⭐⭐ (4)</option>
+                        <option value="3">⭐⭐⭐ (3)</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="submit-btn">Отправить отзыв</button>
+            </form>
         </div>
-    </section>
+    </div>
 
     <!-- Контакты -->
-    <section id="contact" class="contact">
+    <section id="contact" class="contact fade-in">
         <h2>Связаться со мной</h2>
         <div class="contact-info">
             <h3>Готова создать что-то особенное для вас!</h3>
             <p>Напишите мне, и мы обсудим ваш заказ</p>
             <div class="contact-links">
                 <a href="tel:+79991234567" class="contact-link">📞 +7 (999) 123-45-67</a>
-                <a href="https://t.me/username" class="contact-link">✈️ Telegram: @username</a>
+                <a href="https://t.me/anna_knits" class="contact-link">✈️ Telegram: @anna_knits</a>
                 <a href="https://wa.me/79991234567" class="contact-link">💬 WhatsApp</a>
+                <a href="https://vk.com/anna_knits" class="contact-link">🔵 ВКонтакте</a>
             </div>
         </div>
     </section>
 
     <!-- Подвал -->
     <footer>
-        <p>&copy; 2026 Тёплые петельки. Все права защищены.</p>
+        <p style="font-family: var(--font-script); font-size: 1.8rem;">🧶 Тёплые петельки</p>
+        <p>&copy; 2026 Все права защищены.</p>
         <p>С любовью и теплом в каждой петельке ❤️</p>
     </footer>
 
@@ -886,21 +1512,18 @@
     </div>
 
     <script>
-        // Плавная прокрутка
+        // ===== Плавная прокрутка =====
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
         });
 
-        // Модальное окно
+        // ===== Модальное окно галереи =====
         function openModal(num) {
             const modal = document.getElementById('modal');
             const modalImg = document.getElementById('modal-img');
@@ -915,33 +1538,72 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Закрытие по Escape
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeModal();
-            }
+            if (e.key === 'Escape') closeModal();
         });
 
-        // Анимация при скролле
+        // ===== Модальное окно отзыва =====
+        function openReviewModal() {
+            document.getElementById('reviewModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeReviewModal() {
+            document.getElementById('reviewModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        document.getElementById('reviewModal').addEventListener('click', function(e) {
+            if (e.target === this) closeReviewModal();
+        });
+
+        // ===== FAQ аккордеон =====
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                const item = this.parentElement;
+                const isActive = item.classList.contains('active');
+                
+                // Закрыть все
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                
+                // Открыть текущий, если он был закрыт
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // ===== Калькулятор стоимости =====
+        function calculateTotal() {
+            const product = parseInt(document.getElementById('calc-product').value);
+            const size = parseInt(document.getElementById('calc-size').value);
+            const yarn = parseInt(document.getElementById('calc-yarn').value);
+            const urgent = parseInt(document.getElementById('calc-urgent').value);
+            
+            const total = product + size + yarn + urgent;
+            document.getElementById('total-price').textContent = total.toLocaleString('ru-RU') + ' ₽';
+        }
+
+        document.getElementById('calc-product').addEventListener('change', calculateTotal);
+        document.getElementById('calc-size').addEventListener('change', calculateTotal);
+        document.getElementById('calc-yarn').addEventListener('change', calculateTotal);
+        document.getElementById('calc-urgent').addEventListener('change', calculateTotal);
+
+        // ===== Анимация появления при скролле =====
         const observerOptions = {
             threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
+            rootMargin: '0px 0px -50px 0px'
         };
 
         const observer = new IntersectionObserver(function(entries) {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.classList.add('visible');
                 }
             });
         }, observerOptions);
 
-        // Наблюдаем за элементами
-        document.querySelectorAll('.service-card, .gallery-item, .about-content, .step, .review-card').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        document.querySelectorAll('.fade-in').forEach(el => {
             observer.observe(el);
         });
     </script>

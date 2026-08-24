@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Тёплые петельки — Вязаные вещи ручной работы</title>
     
-    <!-- Подключение шрифтов: Marck Script (рукописный, как Decor) и Nunito (мягкий для текста) -->
+    <!-- Подключение шрифтов: Marck Script (рукописный) и Nunito (мягкий для текста) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Marck+Script&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -45,7 +45,7 @@
         }
 
         /* =========================================
-           2. АНИМАЦИЯ: ПЛАВАЮЩИЕ КЛУБКИ НА ФОНЕ
+           2. АНИМАЦИЯ: ПЛАВАЮЩИЕ КЛУБКИ НА ФОНЕ (ИСПРАВЛЕНО)
            ========================================= */
         .floating-bg {
             position: fixed;
@@ -54,22 +54,22 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 0;
+            z-index: -1; /* Помещаем строго за所有内容 */
             overflow: hidden;
         }
 
         .yarn-ball {
             position: absolute;
-            font-size: 2rem;
-            opacity: 0.08;
+            font-size: 2.5rem;
+            opacity: 0.15; /* Сделали чуть заметнее */
             animation: floatYarn 20s infinite ease-in-out;
         }
 
-        .yarn-ball:nth-child(1) { top: 10%; left: 5%; animation-duration: 18s; font-size: 2.5rem; }
+        .yarn-ball:nth-child(1) { top: 10%; left: 5%; animation-duration: 18s; font-size: 3rem; }
         .yarn-ball:nth-child(2) { top: 30%; left: 85%; animation-duration: 22s; animation-delay: 2s; }
-        .yarn-ball:nth-child(3) { top: 60%; left: 15%; animation-duration: 25s; animation-delay: 4s; font-size: 3rem; }
+        .yarn-ball:nth-child(3) { top: 60%; left: 15%; animation-duration: 25s; animation-delay: 4s; font-size: 3.5rem; }
         .yarn-ball:nth-child(4) { top: 80%; left: 75%; animation-duration: 20s; animation-delay: 6s; }
-        .yarn-ball:nth-child(5) { top: 45%; left: 50%; animation-duration: 28s; animation-delay: 3s; font-size: 2.2rem; }
+        .yarn-ball:nth-child(5) { top: 45%; left: 50%; animation-duration: 28s; animation-delay: 3s; font-size: 2.8rem; }
         .yarn-ball:nth-child(6) { top: 15%; left: 60%; animation-duration: 24s; animation-delay: 5s; }
 
         @keyframes floatYarn {
@@ -90,7 +90,7 @@
             position: relative;
             z-index: 10;
             font-family: var(--font-script);
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             letter-spacing: 1px;
         }
 
@@ -247,7 +247,7 @@
         }
 
         /* =========================================
-           7. ОБО МНЕ
+           7. ОБО МНЕ (ИСПРАВЛЕНО: убрана анимация)
            ========================================= */
         .about {
             background: var(--color-white);
@@ -276,7 +276,7 @@
             border-radius: 20px;
             overflow: hidden;
             box-shadow: var(--shadow-hover);
-            animation: floatYarn 6s infinite ease-in-out;
+            /* Анимация удалена, картинка теперь статична */
         }
 
         .about-image img {
@@ -303,7 +303,6 @@
             gap: 2.5rem;
         }
 
-        /* Контейнер для 3D-эффекта */
         .flip-card {
             perspective: 1000px;
             height: 450px;
@@ -571,7 +570,7 @@
         }
 
         /* =========================================
-           12. ФОРМА ЗАКАЗА (РАБОЧАЯ ЧЕРЕЗ FORMSUBMIT)
+           12. ФОРМА ЗАКАЗА
            ========================================= */
         .order-form {
             background: linear-gradient(135deg, #f5ebe0 0%, #e8d5c4 100%);
@@ -1009,9 +1008,9 @@
 </head>
 <body>
 
-    <!-- Анимированный фон: плавающие клубки -->
+    <!-- Анимированный фон: плавающие клубки (ИСПРАВЛЕНО: добавлены эмодзи) -->
     <div class="floating-bg">
-        <div class="yarn-ball"></div>
+        <div class="yarn-ball">🧶</div>
         <div class="yarn-ball">🧵</div>
         <div class="yarn-ball">🪡</div>
         <div class="yarn-ball">🧶</div>
@@ -1025,7 +1024,7 @@
             <span>✨ Каждая вещь — единственная в своём роде: свяжу именно для вас по вашим меркам и пожеланиям ✨</span>
             <span>✨ Каждая вещь — единственная в своём роде: свяжу именно для вас по вашим меркам и пожеланиям ✨</span>
             <span>✨ Каждая вещь — единственная в своём роде: свяжу именно для вас по вашим меркам и пожеланиям ✨</span>
-            <span>✨ Каждая вещь — единственная в своём роде: свяжу именно для вас по вашим меркам и пожеланиям ✨</span>
+            <span>✨ Каждая вещь — единственная в своём роде: свяжу именно для вас по вашим меркам и пожеланиям </span>
         </div>
     </div>
 
@@ -1315,14 +1314,11 @@
         </div>
     </section>
 
-    <!-- Форма заказа (РАБОЧАЯ через FormSubmit) -->
+    <!-- Форма заказа -->
     <section id="order" class="order-form fade-in">
         <h2>Оформить заказ</h2>
         <div class="form-container">
-            <!-- FormSubmit.co — бесплатный сервис, отправляет заявки на email без бэкенда -->
             <form action="https://formsubmit.co/anna@teplye-petelki.ru" method="POST">
-                
-                <!-- Настройки FormSubmit -->
                 <input type="hidden" name="_subject" value="Новая заявка с сайта Тёплые петельки!">
                 <input type="hidden" name="_captcha" value="false">
                 <input type="hidden" name="_template" value="table">
@@ -1493,7 +1489,7 @@
                 <a href="tel:+79991234567" class="contact-link">📞 +7 (999) 123-45-67</a>
                 <a href="https://t.me/anna_knits" class="contact-link">✈️ Telegram: @anna_knits</a>
                 <a href="https://wa.me/79991234567" class="contact-link">💬 WhatsApp</a>
-                <a href="https://vk.com/anna_knits" class="contact-link">🔵 ВКонтакте</a>
+                <a href="https://vk.com/anna_knits" class="contact-link"> ВКонтакте</a>
             </div>
         </div>
     </section>
@@ -1563,10 +1559,8 @@
                 const item = this.parentElement;
                 const isActive = item.classList.contains('active');
                 
-                // Закрыть все
                 document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
                 
-                // Открыть текущий, если он был закрыт
                 if (!isActive) {
                     item.classList.add('active');
                 }

@@ -5,15 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Тёплые петельки — Вязаные вещи ручной работы</title>
     
-    <!-- Подключение шрифтов: Marck Script (рукописный) и Nunito (мягкий для текста) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Marck+Script&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        /* =========================================
-           1. CSS-ПЕРЕМЕННЫЕ И БАЗОВЫЕ НАСТРОЙКИ
-           ========================================= */
         :root {
             --color-chocolate: #5a4a42;
             --color-chocolate-dark: #3d3229;
@@ -44,9 +40,7 @@
             overflow-x: hidden;
         }
 
-        /* =========================================
-           2. АНИМАЦИЯ: ПЛАВАЮЩИЕ КЛУБКИ НА ФОНЕ (ИСПРАВЛЕНО)
-           ========================================= */
+        /* УЛУЧШЕННЫЙ ФОН С ПЛАВАЮЩИМИ ЭЛЕМЕНТАМИ */
         .floating-bg {
             position: fixed;
             top: 0;
@@ -54,34 +48,123 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: -1; /* Помещаем строго за所有内容 */
+            z-index: 0;
             overflow: hidden;
         }
 
-        .yarn-ball {
+        .floating-element {
             position: absolute;
-            font-size: 2.5rem;
-            opacity: 0.15; /* Сделали чуть заметнее */
-            animation: floatYarn 20s infinite ease-in-out;
+            opacity: 0.15;
+            animation: floatElement 25s infinite ease-in-out;
         }
 
-        .yarn-ball:nth-child(1) { top: 10%; left: 5%; animation-duration: 18s; font-size: 3rem; }
-        .yarn-ball:nth-child(2) { top: 30%; left: 85%; animation-duration: 22s; animation-delay: 2s; }
-        .yarn-ball:nth-child(3) { top: 60%; left: 15%; animation-duration: 25s; animation-delay: 4s; font-size: 3.5rem; }
-        .yarn-ball:nth-child(4) { top: 80%; left: 75%; animation-duration: 20s; animation-delay: 6s; }
-        .yarn-ball:nth-child(5) { top: 45%; left: 50%; animation-duration: 28s; animation-delay: 3s; font-size: 2.8rem; }
-        .yarn-ball:nth-child(6) { top: 15%; left: 60%; animation-duration: 24s; animation-delay: 5s; }
+        /* Круги разных размеров и цветов */
+        .circle-1 {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-warm) 0%, var(--color-accent) 100%);
+            top: 10%;
+            left: 5%;
+            animation-duration: 20s;
+        }
 
-        @keyframes floatYarn {
+        .circle-2 {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-warm) 100%);
+            top: 60%;
+            left: 85%;
+            animation-duration: 25s;
+            animation-delay: 3s;
+        }
+
+        .circle-3 {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-warm-light) 0%, var(--color-warm) 100%);
+            top: 70%;
+            left: 15%;
+            animation-duration: 30s;
+            animation-delay: 5s;
+        }
+
+        .circle-4 {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-chocolate) 100%);
+            top: 30%;
+            left: 90%;
+            animation-duration: 22s;
+            animation-delay: 2s;
+        }
+
+        .circle-5 {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-warm) 0%, var(--color-warm-light) 100%);
+            top: 40%;
+            left: 50%;
+            animation-duration: 28s;
+            animation-delay: 7s;
+        }
+
+        .circle-6 {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-chocolate) 0%, var(--color-accent) 100%);
+            top: 80%;
+            left: 70%;
+            animation-duration: 26s;
+            animation-delay: 4s;
+        }
+
+        /* Декоративные элементы - стилизованные под петельки */
+        .deco-1 {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--color-warm);
+            border-radius: 50%;
+            top: 20%;
+            left: 75%;
+            animation-duration: 18s;
+            animation-delay: 6s;
+        }
+
+        .deco-2 {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--color-accent);
+            border-radius: 50%;
+            top: 50%;
+            left: 20%;
+            animation-duration: 24s;
+            animation-delay: 8s;
+        }
+
+        .deco-3 {
+            width: 35px;
+            height: 35px;
+            border: 3px solid var(--color-warm-light);
+            border-radius: 50%;
+            top: 15%;
+            left: 40%;
+            animation-duration: 21s;
+            animation-delay: 10s;
+        }
+
+        @keyframes floatElement {
             0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(30px, -40px) rotate(90deg); }
-            50% { transform: translate(-20px, -80px) rotate(180deg); }
-            75% { transform: translate(40px, -40px) rotate(270deg); }
+            25% { transform: translate(50px, -60px) rotate(90deg); }
+            50% { transform: translate(-30px, -100px) rotate(180deg); }
+            75% { transform: translate(60px, -60px) rotate(270deg); }
         }
 
-        /* =========================================
-           3. БЕГУЩАЯ СТРОКА
-           ========================================= */
         .marquee {
             background: linear-gradient(135deg, var(--color-warm) 0%, var(--color-accent) 100%);
             color: var(--color-white);
@@ -109,9 +192,6 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* =========================================
-           4. ШАПКА
-           ========================================= */
         header {
             background: linear-gradient(135deg, var(--color-warm) 0%, var(--color-warm-light) 100%);
             padding: 1rem 0;
@@ -159,9 +239,6 @@
             transform: translateY(-2px);
         }
 
-        /* =========================================
-           5. ГЛАВНЫЙ ЭКРАН (HERO)
-           ========================================= */
         .hero {
             margin-top: 0;
             min-height: 90vh;
@@ -175,6 +252,7 @@
             text-align: center;
             color: var(--color-white);
             position: relative;
+            z-index: 2;
         }
 
         .hero-content {
@@ -220,15 +298,12 @@
             border-color: var(--color-white);
         }
 
-        /* =========================================
-           6. ОБЩИЕ СТИЛИ СЕКЦИЙ
-           ========================================= */
         section {
             padding: 5rem 2rem;
             max-width: 1200px;
             margin: 0 auto;
             position: relative;
-            z-index: 1;
+            z-index: 2;
         }
 
         h2 {
@@ -239,16 +314,17 @@
             color: var(--color-chocolate-dark);
         }
 
+        /* УБРАЛ ЭМОДЗИ ПОСЛЕ ЗАГОЛОВКОВ */
         h2::after {
-            content: '🧶';
+            content: '';
             display: block;
-            font-size: 2rem;
-            margin-top: 0.5rem;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--color-warm) 0%, var(--color-accent) 100%);
+            margin: 1rem auto 0;
+            border-radius: 2px;
         }
 
-        /* =========================================
-           7. ОБО МНЕ (ИСПРАВЛЕНО: убрана анимация)
-           ========================================= */
         .about {
             background: var(--color-white);
             border-radius: 25px;
@@ -276,7 +352,6 @@
             border-radius: 20px;
             overflow: hidden;
             box-shadow: var(--shadow-hover);
-            /* Анимация удалена, картинка теперь статична */
         }
 
         .about-image img {
@@ -290,9 +365,6 @@
             transform: scale(1.05);
         }
 
-        /* =========================================
-           8. УСЛУГИ С 3D-ПЕРЕВОРОТОМ
-           ========================================= */
         .services {
             background: var(--color-cream);
         }
@@ -396,9 +468,6 @@
             box-shadow: 0 5px 20px rgba(0,0,0,0.3);
         }
 
-        /* =========================================
-           9. КАЛЬКУЛЯТОР
-           ========================================= */
         .calculator {
             background: var(--color-white);
             border-radius: 25px;
@@ -466,9 +535,6 @@
             font-weight: 700;
         }
 
-        /* =========================================
-           10. ГАЛЕРЕЯ
-           ========================================= */
         .gallery {
             background: var(--color-cream);
         }
@@ -516,9 +582,6 @@
             transform: scale(1.15);
         }
 
-        /* =========================================
-           11. КАК ЗАКАЗАТЬ
-           ========================================= */
         .how-to-order {
             background: var(--color-white);
             border-radius: 25px;
@@ -569,9 +632,6 @@
             font-size: 1.5rem;
         }
 
-        /* =========================================
-           12. ФОРМА ЗАКАЗА
-           ========================================= */
         .order-form {
             background: linear-gradient(135deg, #f5ebe0 0%, #e8d5c4 100%);
             border-radius: 25px;
@@ -644,9 +704,6 @@
             box-shadow: 0 15px 35px rgba(212, 165, 116, 0.6);
         }
 
-        /* =========================================
-           13. FAQ (АККОРДЕОН)
-           ========================================= */
         .faq {
             background: var(--color-white);
             border-radius: 25px;
@@ -712,9 +769,6 @@
             padding: 1.5rem;
         }
 
-        /* =========================================
-           14. ОТЗЫВЫ + КНОПКА ДОБАВИТЬ
-           ========================================= */
         .reviews {
             background: var(--color-cream);
         }
@@ -777,7 +831,6 @@
             margin-top: 2rem;
         }
 
-        /* Модальное окно для добавления отзыва */
         .modal-review {
             display: none;
             position: fixed;
@@ -822,9 +875,6 @@
             transform: rotate(90deg);
         }
 
-        /* =========================================
-           15. КОНТАКТЫ
-           ========================================= */
         .contact {
             text-align: center;
         }
@@ -871,25 +921,19 @@
             transform: translateY(-3px);
         }
 
-        /* =========================================
-           16. ПОДВАЛ
-           ========================================= */
         footer {
             background: var(--color-chocolate-dark);
             color: var(--color-cream);
             text-align: center;
             padding: 2.5rem;
             position: relative;
-            z-index: 1;
+            z-index: 2;
         }
 
         footer p {
             margin-bottom: 0.5rem;
         }
 
-        /* =========================================
-           17. МОДАЛЬНОЕ ОКНО ГАЛЕРЕИ
-           ========================================= */
         .modal {
             display: none;
             position: fixed;
@@ -929,9 +973,6 @@
             transform: rotate(90deg);
         }
 
-        /* =========================================
-           18. АНИМАЦИИ
-           ========================================= */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -954,9 +995,6 @@
             transform: translateY(0);
         }
 
-        /* =========================================
-           19. АДАПТИВНОСТЬ
-           ========================================= */
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
@@ -1008,14 +1046,17 @@
 </head>
 <body>
 
-    <!-- Анимированный фон: плавающие клубки (ИСПРАВЛЕНО: добавлены эмодзи) -->
+    <!-- УЛУЧШЕННЫЙ ФОН С МНОЖЕСТВОМ ЭЛЕМЕНТОВ -->
     <div class="floating-bg">
-        <div class="yarn-ball">🧶</div>
-        <div class="yarn-ball">🧵</div>
-        <div class="yarn-ball">🪡</div>
-        <div class="yarn-ball">🧶</div>
-        <div class="yarn-ball">🧵</div>
-        <div class="yarn-ball">🪡</div>
+        <div class="floating-element circle-1"></div>
+        <div class="floating-element circle-2"></div>
+        <div class="floating-element circle-3"></div>
+        <div class="floating-element circle-4"></div>
+        <div class="floating-element circle-5"></div>
+        <div class="floating-element circle-6"></div>
+        <div class="floating-element deco-1"></div>
+        <div class="floating-element deco-2"></div>
+        <div class="floating-element deco-3"></div>
     </div>
 
     <!-- Бегущая строка -->
@@ -1435,7 +1476,7 @@
         </div>
         
         <div class="add-review-btn-container">
-            <button class="btn" onclick="openReviewModal()">️ Добавить отзыв</button>
+            <button class="btn" onclick="openReviewModal()">Добавить отзыв</button>
         </div>
     </section>
 
@@ -1486,7 +1527,7 @@
             <h3>Готова создать что-то особенное для вас!</h3>
             <p>Напишите мне, и мы обсудим ваш заказ</p>
             <div class="contact-links">
-                <a href="tel:+79991234567" class="contact-link">📞 +7 (999) 123-45-67</a>
+                <a href="tel:+79991234567" class="contact-link"> +7 (999) 123-45-67</a>
                 <a href="https://t.me/anna_knits" class="contact-link">✈️ Telegram: @anna_knits</a>
                 <a href="https://wa.me/79991234567" class="contact-link">💬 WhatsApp</a>
                 <a href="https://vk.com/anna_knits" class="contact-link"> ВКонтакте</a>
@@ -1508,7 +1549,6 @@
     </div>
 
     <script>
-        // ===== Плавная прокрутка =====
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1519,7 +1559,6 @@
             });
         });
 
-        // ===== Модальное окно галереи =====
         function openModal(num) {
             const modal = document.getElementById('modal');
             const modalImg = document.getElementById('modal-img');
@@ -1538,7 +1577,6 @@
             if (e.key === 'Escape') closeModal();
         });
 
-        // ===== Модальное окно отзыва =====
         function openReviewModal() {
             document.getElementById('reviewModal').classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -1553,7 +1591,6 @@
             if (e.target === this) closeReviewModal();
         });
 
-        // ===== FAQ аккордеон =====
         document.querySelectorAll('.faq-question').forEach(question => {
             question.addEventListener('click', function() {
                 const item = this.parentElement;
@@ -1567,7 +1604,6 @@
             });
         });
 
-        // ===== Калькулятор стоимости =====
         function calculateTotal() {
             const product = parseInt(document.getElementById('calc-product').value);
             const size = parseInt(document.getElementById('calc-size').value);
@@ -1583,7 +1619,6 @@
         document.getElementById('calc-yarn').addEventListener('change', calculateTotal);
         document.getElementById('calc-urgent').addEventListener('change', calculateTotal);
 
-        // ===== Анимация появления при скролле =====
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
